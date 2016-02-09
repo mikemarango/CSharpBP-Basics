@@ -12,7 +12,7 @@ namespace Acme.Biz.Tests
     public class ProductTests
     {
         [TestMethod()]
-        public void SayHelloTest()
+        public void SayHello_SetPropertyTest()
         {
             // Arrange
             var currentProduct = new Product();
@@ -33,6 +33,25 @@ namespace Acme.Biz.Tests
         {
             // Arrange
             var currentProduct = new Product(1, "Saw", "15-inch steel blade hand saw");
+
+            var expected = "Hello Saw (1): 15-inch steel blade hand saw";
+
+            // Act
+            var actual = currentProduct.SayHello();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod()]
+        public void SayHello_ObjectInitializer()
+        {
+            // Arrange
+            var currentProduct = new Product
+            {
+                ProductId = 1,
+                ProductName = "Saw",
+                ProductDescription = "15-inch steel blade hand saw"
+            };
 
             var expected = "Hello Saw (1): 15-inch steel blade hand saw";
 
