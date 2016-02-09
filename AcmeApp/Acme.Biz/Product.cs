@@ -50,6 +50,15 @@ namespace Acme.Biz
             set { _productId = value; }
         }
 
+        private DateTime? _availabilityDate;
+
+        public DateTime? AvailabilityDate
+        {
+            get { return _availabilityDate; }
+            set { _availabilityDate = value; }
+        }
+
+
         private Vendor _productVendor;
 
         public Vendor ProductVendor
@@ -76,7 +85,7 @@ namespace Acme.Biz
             var confirmation = emailService.SendMessage("New Product", _productName, "sales@acme.com");
             var result = LoggingService.LogAction("Saying Hello");
 
-            return $"Hello {ProductName} ({ProductId}): {ProductDescription}";
+            return $"Hello {ProductName} ({ProductId}): {ProductDescription} Available on: {AvailabilityDate?.ToShortDateString()}";
         }
     }
 }
