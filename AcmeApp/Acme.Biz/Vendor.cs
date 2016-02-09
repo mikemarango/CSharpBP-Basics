@@ -23,7 +23,7 @@ namespace Acme.Biz
         public string SendWelcomeEmail(string message)
         {
             var emailService = new EmailService();
-            var subject = "Hello" + this.CompanyName;
+            var subject = ("Hello " + this.CompanyName).Trim();
             var confirmation = emailService.SendMessage(subject,
                                                         message, 
                                                         this.Email);
