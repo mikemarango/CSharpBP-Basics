@@ -19,7 +19,7 @@ namespace Acme.Biz
         public Product()
         {
             Console.WriteLine("Product instance created");
-            ProductVendor = new Vendor();
+            //ProductVendor = new Vendor();
         }
 
         public Product(int productId, string productName, string productDescription) : this()
@@ -54,7 +54,14 @@ namespace Acme.Biz
 
         public Vendor ProductVendor
         {
-            get { return _productVendor; }
+            get
+            {
+                if (_productVendor == null)
+                {
+                    _productVendor = new Vendor();
+                }
+                return _productVendor;
+            }
             set { _productVendor = value; }
         }
 
