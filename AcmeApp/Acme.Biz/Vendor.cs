@@ -15,6 +15,8 @@ namespace Acme.Biz
         public int VendorId { get; set; }
         public string CompanyName { get; set; }
         public string Email { get; set; }
+        public enum IncludeAddress { Yes, No };
+        public enum SendCopy { Yes, No };
 
         /// <summary>
         /// Sends a product order to the vendor
@@ -93,6 +95,27 @@ namespace Acme.Biz
             var operationResult = new OperationResult(true, orderText);
             return operationResult;
         }
+
+        /// <summary>
+        /// Sends a product order to the vendor
+        /// </summary>
+        /// <param name="product">Product to order</param>
+        /// <param name="quantity">Quantity of the product to order</param>
+        /// <param name="includeAddress">True to include shipping address</param>
+        /// <param name="sendCopy">True to send a copy of the email to the current current user</param>
+        /// <returns>Success flag and order text</returns>
+        public OperationResult PlaceOrder(Product product, int quantity, IncludeAddress includeAddress, SendCopy sendCopy)
+        {
+            var orderText = "Test";
+            if (includeAddress == IncludeAddress.Yes) orderText += $" with Address";
+            if (sendCopy == SendCopy.Yes) orderText += $" with Copy";
+
+            var operationResult = new OperationResult(true, orderText);
+            return operationResult;
+        }
+
+
+
 
         /// <summary>
         /// Sends an email to welcome a new vendor.

@@ -109,7 +109,7 @@ namespace Acme.Biz.Tests
         }
 
         [TestMethod()]
-        public void PlaceOrderTest_WithAddress()
+        public void PlaceOrderTest_WithAddress_NamedArgs()
         {
             // Arrange
             var vendor = new Vendor();
@@ -123,5 +123,22 @@ namespace Acme.Biz.Tests
             Assert.AreEqual(expected.Success, actual.Success);
             Assert.AreEqual(expected.Message, actual.Message);
         }
+
+        [TestMethod()]
+        public void PlaceOrderTest_WithAddress_EnumArgs()
+        {
+            // Arrange
+            var vendor = new Vendor();
+            var product = new Product(1, "Saw", "");
+            var expected = new OperationResult(true, "Test with Address");
+
+            // Act
+            var actual = vendor.PlaceOrder(product, 12, Vendor.IncludeAddress.Yes, Vendor.SendCopy.No);
+
+            // Assert
+            Assert.AreEqual(expected.Success, actual.Success);
+            Assert.AreEqual(expected.Message, actual.Message);
+        }
+
     }
 }
