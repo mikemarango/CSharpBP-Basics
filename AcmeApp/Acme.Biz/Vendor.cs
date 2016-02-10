@@ -28,14 +28,16 @@ namespace Acme.Biz
                 throw new ArgumentOutOfRangeException(nameof(deliveryBy));
 
             var success = false;
-            var orderText =
-                $"Order from Acme, Inc{System.Environment.NewLine}Product: {product.ProductCode}{System.Environment.NewLine}Quantity: {quantity}";
+            var orderTextBuilder = new StringBuilder(
+                $"Order from Acme, Inc{System.Environment.NewLine}Product: {product.ProductCode}{System.Environment.NewLine}Quantity: {quantity}");
 
             if (deliveryBy.HasValue)
-                orderText += $"{Environment.NewLine}Deliver By: {deliveryBy.Value.ToString("d")}";
+                orderTextBuilder.Append($"{Environment.NewLine}Deliver By: {deliveryBy.Value.ToString("d")}");
 
             if (!string.IsNullOrWhiteSpace(instructions))
-                orderText += $"{Environment.NewLine}Instructions: {instructions}";
+                orderTextBuilder.Append($"{Environment.NewLine}Instructions: {instructions}");
+
+            var orderText = orderTextBuilder.ToString();
 
             var emailService = new EmailService();
             var confirmation = emailService.SendMessage("New Order", orderText, Email);
