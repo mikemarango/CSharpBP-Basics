@@ -75,6 +75,26 @@ namespace Acme.Biz.Tests
         }
 
         [TestMethod()]
+        public void PlaceOrderTest_3ParametersOverload()
+        {
+            // Arrange
+            var vendor = new Vendor();
+            var product = new Product(1, "Saw", "");
+            var expected = new OperationResult(true,
+                "Order from Acme, Inc\r\nProduct: Tools-1\r\nQuantity: 12" +
+                "\r\nDeliver By: 2/15/2016");
+
+            // Act
+            var actual = vendor.PlaceOrder(product, 12,
+                new DateTimeOffset(2016, 2, 15, 0, 0, 0, new TimeSpan(-7, 0, 0)));
+
+            // Assert
+            Assert.AreEqual(expected.Success, actual.Success);
+            Assert.AreEqual(expected.Message, actual.Message);
+        }
+
+
+        [TestMethod()]
         [ExpectedException(typeof(ArgumentNullException))]
         public void PlaceOrder_NullProduct_Exception()
         {

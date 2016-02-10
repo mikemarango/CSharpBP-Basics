@@ -44,6 +44,81 @@ namespace Acme.Biz
         }
 
         /// <summary>
+        /// Sends a product order to the vendor
+        /// </summary>
+        /// <param name="product">Product to order</param>
+        /// <param name="quantity">Quantity of the product to order</param>
+        /// <param name="deliveryBy">deliveryBy</param>
+        /// <returns></returns>
+        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy)
+        {
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
+            if (quantity <= 0)
+                throw new ArgumentOutOfRangeException(nameof(quantity));
+            if (deliveryBy <= DateTimeOffset.Now)
+                throw new ArgumentOutOfRangeException(nameof(deliveryBy));
+
+            var success = false;
+            var orderText =
+                $"Order from Acme, Inc{System.Environment.NewLine}Product: {product.ProductCode}{System.Environment.NewLine}Quantity: {quantity}";
+
+            if (deliveryBy.HasValue)
+                orderText += $"{Environment.NewLine}Deliver By: {deliveryBy.Value.ToString("d")}";
+
+            var emailService = new EmailService();
+            var confirmation = emailService.SendMessage("New Order", orderText, Email);
+
+            if (confirmation.StartsWith("Message sent: "))
+            {
+                success = true;
+            }
+            var operationResult = new OperationResult(success, orderText);
+            return operationResult;
+        }
+
+        /// <summary>
+        /// Sends a product order to the vendor
+        /// </summary>
+        /// <param name="product">Product to order</param>
+        /// <param name="quantity">Quantity of the product to order</param>
+        /// <param name="deliveryBy">Requested delivery date</param>
+        /// <param name="instructions">Delivery instructions</param>
+        /// <returns></returns>
+        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy, string instructions)
+        {
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
+            if (quantity <= 0)
+                throw new ArgumentOutOfRangeException(nameof(quantity));
+            if (deliveryBy <= DateTimeOffset.Now)
+                throw new ArgumentOutOfRangeException(nameof(deliveryBy));
+
+            var success = false;
+            var orderText =
+                $"Order from Acme, Inc{System.Environment.NewLine}Product: {product.ProductCode}{System.Environment.NewLine}Quantity: {quantity}";
+
+            if (deliveryBy.HasValue)
+                orderText += $"{Environment.NewLine}Deliver By: {deliveryBy.Value.ToString("d")}";
+
+            if (!string.IsNullOrWhiteSpace(instructions))
+                orderText += $"{Environment.NewLine}Instructions: {instructions}";
+
+            var emailService = new EmailService();
+            var confirmation = emailService.SendMessage("New Order", orderText, Email);
+
+            if (confirmation.StartsWith("Message sent: "))
+            {
+                success = true;
+            }
+            var operationResult = new OperationResult(success, orderText);
+            return operationResult;
+        }
+
+
+
+
+        /// <summary>
         /// Sends an email to welcome a new vendor.
         /// </summary>
         /// <returns></returns>
