@@ -83,9 +83,6 @@ namespace Acme.Biz
             return operationResult;
         }
 
-
-
-
         /// <summary>
         /// Sends an email to welcome a new vendor.
         /// </summary>
@@ -96,6 +93,21 @@ namespace Acme.Biz
             var subject = ("Hello " + this.CompanyName).Trim();
             var confirmation = emailService.SendMessage(subject, message, this.Email);
             return confirmation;
+        }
+
+        public override string ToString()
+        {
+            string vendorInfo = "Vendor: " + CompanyName;
+            string result;
+            result = vendorInfo.ToLower();
+            result = vendorInfo.ToUpper();
+            result = vendorInfo.Replace("Vendor", "Supplier");
+
+            var length = vendorInfo.Length;
+            var index = vendorInfo.IndexOf(":");
+            var begins = vendorInfo.StartsWith("Vendor");
+
+            return vendorInfo;
         }
     }
 }
