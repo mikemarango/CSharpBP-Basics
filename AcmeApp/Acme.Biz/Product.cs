@@ -102,7 +102,7 @@ namespace Acme.Biz
             }
             set { _productVendor = value; }
         }
-        public string Category { get; set; }
+        internal string Category { get; set; }
         public int SequenceNumber { get; set; } = 1;
 
         public string ValidationMessage { get; private set; }
