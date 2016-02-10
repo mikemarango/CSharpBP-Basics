@@ -17,6 +17,33 @@ namespace Acme.Biz
         public string Email { get; set; }
 
         /// <summary>
+        /// Sends a product order to the vendor
+        /// </summary>
+        /// <param name="product">Product to order</param>
+        /// <param name="quantity">Quantity of the product to order</param>
+        /// <returns></returns>
+        public bool PlaceOrder(Product product, int quantity)
+        {
+            if (product == null)
+                throw new ArgumentNullException(nameof(product));
+            if (quantity <= 0)
+                throw new ArgumentOutOfRangeException(nameof(quantity));
+
+            var success = false;
+            var orderText = 
+                $"Order from Acme, Inc {System.Environment.NewLine} Product: {product.ProductCode} Quantity: {quantity}";
+            var emailService = new EmailService();
+            var confirmation = emailService.SendMessage("New Order", orderText, Email);
+
+            if (confirmation.StartsWith("Message sent: "))
+            {
+                success = true;
+            }
+
+            return success;
+        }
+
+        /// <summary>
         /// Sends an email to welcome a new vendor.
         /// </summary>
         /// <returns></returns>
@@ -24,9 +51,7 @@ namespace Acme.Biz
         {
             var emailService = new EmailService();
             var subject = ("Hello " + this.CompanyName).Trim();
-            var confirmation = emailService.SendMessage(subject,
-                                                        message, 
-                                                        this.Email);
+            var confirmation = emailService.SendMessage(subject, message, this.Email);
             return confirmation;
         }
     }
