@@ -18,38 +18,7 @@ namespace Acme.Biz
         public enum IncludeAddress { Yes, No };
         public enum SendCopy { Yes, No };
 
-        /// <summary>
-        /// Sends a product order to the vendor
-        /// </summary>
-        /// <param name="product">Product to order</param>
-        /// <param name="quantity">Quantity of the product to order</param>
-        /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity)
-        {
-            return PlaceOrder(product, quantity, null, null);
-        }
-
-        /// <summary>
-        /// Sends a product order to the vendor
-        /// </summary>
-        /// <param name="product">Product to order</param>
-        /// <param name="quantity">Quantity of the product to order</param>
-        /// <param name="deliveryBy">deliveryBy</param>
-        /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy)
-        {
-            return PlaceOrder(product, quantity, deliveryBy, null);
-        }
-
-        /// <summary>
-        /// Sends a product order to the vendor
-        /// </summary>
-        /// <param name="product">Product to order</param>
-        /// <param name="quantity">Quantity of the product to order</param>
-        /// <param name="deliveryBy">Requested delivery date</param>
-        /// <param name="instructions">Delivery instructions</param>
-        /// <returns></returns>
-        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy, string instructions)
+        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy = null, string instructions = "standard delivery")
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));

@@ -64,7 +64,8 @@ namespace Acme.Biz.Tests
             var vendor = new Vendor();
             var product = new Product(1, "Saw", "");
             var expected = new OperationResult(true,
-                "Order from Acme, Inc\r\nProduct: Tools-1\r\nQuantity: 12");
+                "Order from Acme, Inc\r\nProduct: Tools-1\r\nQuantity: 12" +
+                "\r\nInstructions: standard delivery");
 
             // Act
             var actual = vendor.PlaceOrder(product, 12);
@@ -82,7 +83,8 @@ namespace Acme.Biz.Tests
             var product = new Product(1, "Saw", "");
             var expected = new OperationResult(true,
                 "Order from Acme, Inc\r\nProduct: Tools-1\r\nQuantity: 12" +
-                "\r\nDeliver By: 2/15/2016");
+                "\r\nDeliver By: 2/15/2016" +
+                "\r\nInstructions: standard delivery");
 
             // Act
             var actual = vendor.PlaceOrder(product, 12,
@@ -134,6 +136,24 @@ namespace Acme.Biz.Tests
 
             // Act
             var actual = vendor.PlaceOrder(product, 12, Vendor.IncludeAddress.Yes, Vendor.SendCopy.No);
+
+            // Assert
+            Assert.AreEqual(expected.Success, actual.Success);
+            Assert.AreEqual(expected.Message, actual.Message);
+        }
+
+        [TestMethod()]
+        public void PlaceOrderTest_NoDeliveryDate()
+        {
+            // Arrange
+            var vendor = new Vendor();
+            var product = new Product(1, "Saw", "");
+            var expected = new OperationResult(true,
+                "Order from Acme, Inc\r\nProduct: Tools-1\r\nQuantity: 12" +
+                "\r\nInstructions: Delivery to Suite 42");
+
+            // Act
+            var actual = vendor.PlaceOrder(product, 12, instructions: "Delivery to Suite 42");
 
             // Assert
             Assert.AreEqual(expected.Success, actual.Success);
