@@ -24,23 +24,7 @@ namespace Acme.Biz
         /// <returns></returns>
         public OperationResult PlaceOrder(Product product, int quantity)
         {
-            if (product == null)
-                throw new ArgumentNullException(nameof(product));
-            if (quantity <= 0)
-                throw new ArgumentOutOfRangeException(nameof(quantity));
-
-            var success = false;
-            var orderText = 
-                $"Order from Acme, Inc{System.Environment.NewLine}Product: {product.ProductCode}{System.Environment.NewLine}Quantity: {quantity}";
-            var emailService = new EmailService();
-            var confirmation = emailService.SendMessage("New Order", orderText, Email);
-
-            if (confirmation.StartsWith("Message sent: "))
-            {
-                success = true;
-            }
-            var operationResult = new OperationResult(success, orderText);
-            return operationResult;
+            return PlaceOrder(product, quantity, null, null);
         }
 
         /// <summary>
@@ -52,29 +36,7 @@ namespace Acme.Biz
         /// <returns></returns>
         public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy)
         {
-            if (product == null)
-                throw new ArgumentNullException(nameof(product));
-            if (quantity <= 0)
-                throw new ArgumentOutOfRangeException(nameof(quantity));
-            if (deliveryBy <= DateTimeOffset.Now)
-                throw new ArgumentOutOfRangeException(nameof(deliveryBy));
-
-            var success = false;
-            var orderText =
-                $"Order from Acme, Inc{System.Environment.NewLine}Product: {product.ProductCode}{System.Environment.NewLine}Quantity: {quantity}";
-
-            if (deliveryBy.HasValue)
-                orderText += $"{Environment.NewLine}Deliver By: {deliveryBy.Value.ToString("d")}";
-
-            var emailService = new EmailService();
-            var confirmation = emailService.SendMessage("New Order", orderText, Email);
-
-            if (confirmation.StartsWith("Message sent: "))
-            {
-                success = true;
-            }
-            var operationResult = new OperationResult(success, orderText);
-            return operationResult;
+            return PlaceOrder(product, quantity, deliveryBy, null);
         }
 
         /// <summary>
@@ -114,9 +76,6 @@ namespace Acme.Biz
             var operationResult = new OperationResult(success, orderText);
             return operationResult;
         }
-
-
-
 
         /// <summary>
         /// Sends an email to welcome a new vendor.
