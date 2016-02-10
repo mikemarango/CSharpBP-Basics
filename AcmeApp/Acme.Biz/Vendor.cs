@@ -109,5 +109,20 @@ namespace Acme.Biz
 
             return vendorInfo;
         }
+
+        public string PrepareDirections()
+        {
+            var directions = @"Insert \r\n to define a new line";
+            return directions;
+        }
+
+        public string PrepareDirectionsOnTwoLines()
+        {
+            var directions = $"First do this {Environment.NewLine} Then do that";
+            var directions2 = "First do this\r\nThen do that";
+            var directions3 = @"First do this
+Then do that";
+            return directions;
+        }
     }
 }
