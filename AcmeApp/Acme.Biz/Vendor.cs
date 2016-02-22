@@ -18,7 +18,7 @@ namespace Acme.Biz
         public enum IncludeAddress { Yes, No };
         public enum SendCopy { Yes, No };
 
-        public OperationResult PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy = null, string instructions = "standard delivery")
+        public OperationResult<bool> PlaceOrder(Product product, int quantity, DateTimeOffset? deliveryBy = null, string instructions = "standard delivery")
         {
             if (product == null)
                 throw new ArgumentNullException(nameof(product));
@@ -46,7 +46,7 @@ namespace Acme.Biz
             {
                 success = true;
             }
-            var operationResult = new OperationResult(success, orderText);
+            var operationResult = new OperationResult<bool>(success, orderText);
             return operationResult;
         }
         /// <summary>
@@ -57,13 +57,13 @@ namespace Acme.Biz
         /// <param name="includeAddress">True to include shipping address</param>
         /// <param name="sendCopy">True to send a copy of the email to the current current user</param>
         /// <returns>Success flag and order text</returns>
-        public OperationResult PlaceOrder(Product product, int quantity, bool includeAddress, bool sendCopy)
+        public OperationResult<bool> PlaceOrder(Product product, int quantity, bool includeAddress, bool sendCopy)
         {
             var orderText = "Test";
             if (includeAddress) orderText += $" with Address";
             if (sendCopy) orderText += $" with Copy";
 
-            var operationResult = new OperationResult(true, orderText);
+            var operationResult = new OperationResult<bool>(true, orderText);
             return operationResult;
         }
 
@@ -75,13 +75,13 @@ namespace Acme.Biz
         /// <param name="includeAddress">True to include shipping address</param>
         /// <param name="sendCopy">True to send a copy of the email to the current current user</param>
         /// <returns>Success flag and order text</returns>
-        public OperationResult PlaceOrder(Product product, int quantity, IncludeAddress includeAddress, SendCopy sendCopy)
+        public OperationResult<bool> PlaceOrder(Product product, int quantity, IncludeAddress includeAddress, SendCopy sendCopy)
         {
             var orderText = "Test";
             if (includeAddress == IncludeAddress.Yes) orderText += $" with Address";
             if (sendCopy == SendCopy.Yes) orderText += $" with Copy";
 
-            var operationResult = new OperationResult(true, orderText);
+            var operationResult = new OperationResult<bool>(true, orderText);
             return operationResult;
         }
 
