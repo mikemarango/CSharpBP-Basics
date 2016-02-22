@@ -20,10 +20,33 @@ namespace Acme.Biz
         #region Constructors
         public Product()
         {
-            Console.WriteLine("Product instance created");
+            //Console.WriteLine("Product instance created");
             MinimumPrice = .96m;
             Category = "Tools";
             //ProductVendor = new Vendor();
+            //var colorOptions = new string[4];
+            //colorOptions[0] = "Red";
+            //colorOptions[1] = "Expresso";
+            //colorOptions[3] = "White";
+            //colorOptions[4] = "Navy";
+
+            string[] colorOptions = { "Red", "Espresso", "White", "Navy" }; // Collection initializer syntax
+
+            var brownIndex = Array.IndexOf(colorOptions, "Espresso");
+
+            colorOptions.SetValue("Blue", 3);
+
+            for (int i = 0; i < colorOptions.Length; i++)
+            {
+                colorOptions[i] = colorOptions[i].ToLower();
+            }
+
+            foreach (var color in colorOptions)
+            {
+                Console.WriteLine($"The color is {color}");
+            }
+
+            Console.WriteLine(colorOptions[1]);
         }
 
         public Product(int productId, string productName, string productDescription) : this()
